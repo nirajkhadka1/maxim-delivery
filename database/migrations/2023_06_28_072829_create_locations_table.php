@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('postal_code');
-            $table->string('address');
+            $table->string('geolocation');
             $table->timestamps();
         });
     }

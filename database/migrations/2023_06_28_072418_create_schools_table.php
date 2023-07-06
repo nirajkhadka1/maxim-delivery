@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('primary_contact_number',20);
             $table->string('secondary_contact_number',20)->nullable();
-            $table->string('primary_email_address',50)->nullable();
-            $table->string('secondary_email_address',50);
+            $table->string('primary_email_address',50);
+            $table->string('secondary_email_address',50)->nullable();
             $table->string('address',255);
             $table->timestamps();
         });

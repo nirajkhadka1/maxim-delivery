@@ -3,12 +3,16 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Manage Dates</span>
+                <a href="{{url('/v1/admin/available-dates')}}" class="list-group-item list-group-item-action py-2 ripple {{request()->is('v1/admin/available-dates')?'active':''}}" aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dates</span>
                 </a>
-                {{-- <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
-                        <i class="fas fa-chart-area fa-fw me-3"></i><span>Webiste traffic</span>
-                    </a>
+                {{-- <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                        <i class="fas fa-chart-area fa-fw me-3"></i><span></span>
+                    </a> --}}
+                <a href="{{url('/v1/admin/order/1')}}" class="list-group-item list-group-item-action py-2 ripple {{request()->is('v1/admin/order/1') ? 'active':''}}">
+                    <i class="fas fa-chart-area fa-fw me-3"></i><span>Orders</span>
+                </a>
+                    {{--
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-lock fa-fw me-3"></i><span>Password</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -45,7 +49,7 @@
 
             <!-- Brand -->
             <a class="navbar-brand" href="#">
-                <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="25"
+                <img src="{{asset('images/logo.png')}}" height="25"
                     alt="MDB Logo" loading="lazy" />
             </a>
 

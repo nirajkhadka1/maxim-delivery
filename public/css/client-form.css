@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,600&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+.logo {
+  margin-bottom: 42px;
+  margin-top: 57px;
+  display: flex;
+  justify-content: center;
+}
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 280px;
+  margin-bottom: 214px;
+}
+fieldset {
+  border: none;
+}
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+h1 {
+  color: #0c7f40;
+  font-weight: 700;
+
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 3px;
+}
+.paragraph {
+  margin-bottom: 42px;
+  max-width: 600px;
+  margin-inline: auto;
+}
+p {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 42px;
+}
+.form_sections {
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  max-width: 58rem;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+}
+input,
+select {
+  min-width: 175px;
+  padding: 12px;
+  border: 1px solid;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+select {
+  background: url('../images/CaretDown.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) center !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  padding-right: 2rem !important;
+  border: 1px solid black;
+}
+select option {
+  font-family: inherit !important ;
+  color: black;
+  line-height: 3;
+  padding: 10px;
+}
+option:hover {
+  background-color: #ececec;
+}
+select.open {
+  background: url('../images/CaretUp.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) center !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+#datetimepicker {
+  background: url('../images/CalendarBlank.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) center !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  border: 1px solid;
+}
+#datetimepicker :focus {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .label {
+    min-width: 438px;
+  }
+}
+::placeholder {
+  color: #c8c8c8;
+  opacity: 1;
+}
+input[type='date'] {
+  color: #c8c8c8;
+}
+select {
+  color: #c8c8c8;
+}
+.label {
+  margin-bottom: 18px;
+}
+label {
+  margin-bottom: 8px;
+}
+button {
+  min-width: 147px;
+  height: 48px;
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+.form_buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.btn_Cancel {
+  background-color: #cb2500;
+}
+.btn_Submit {
+  background-color: #0c7f40;
+}
+tr {
+  color: #dadfe3;
+}
+.ui-datepicker .ui-datepicker-header {
+  background: white;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+  border: none;
+  background: white;
+  font-weight: 700;
+}
+.select2-container--default .select2-selection--single {
+  border-radius: 0 !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center;
+  border: 1px solid black !important;
+}
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__rendered {
+  color: #c8c8c8 !important;
+}
+.select2-container {
+  width: 280px !important;
+}
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow {
+  top: 12px !important;
+}
+@media (min-width: 768px) {
+  .form_sections {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form_buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 17px;
+    justify-content: center;
+    margin-top: 68px;
+  }
+  .label {
+    display: flex;
+    flex-direction: column;
+  }
+  input,
+  select {
+    min-width: 410px;
+  }
+
+  .select2-container {
+    width: 438px !important;
+  }
+}
+
+@media (min-width: 563px) and (max-width: 760px) {
+  .select2-container {
+    width: 540px !important;
+  }
+}
+@media (min-width: 788px) and (max-width: 964px) {
+  .form_sections {
+    display: flex;
+    justify-content: center;
+  }
+  .form_buttons {
+    display: flex;
+    justify-content: left;
+  }
+}
+
+@media (min-width: 770px) and (max-width: 990px) {
+  .form_sections {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .form_buttons {
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (min-width: 530px) and (max-width: 563px) {
+  .select2-container {
+    width: 280px !important;
+  }
+}
+.available a{
+  background-color: #8dffc0 !important;
+}
+.weekend span{
+  background-color: #ff937b !important;
+}

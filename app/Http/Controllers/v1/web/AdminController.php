@@ -4,14 +4,16 @@ namespace App\Http\Controllers\v1\web;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\contracts\DateDeliveryRepoInterface;
+use App\Repositories\contracts\OrdersRepoInterface;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    private $dateDeliveryRepoInterface;
-    function __construct(DateDeliveryRepoInterface $dateDeliveryRepoInterface)
+    private $dateDeliveryRepoInterface,$orderRepoInterface;
+    function __construct(DateDeliveryRepoInterface $dateDeliveryRepoInterface,OrdersRepoInterface $orderRepoInterface)
     {
         $this->dateDeliveryRepoInterface = $dateDeliveryRepoInterface;
+        $this->orderRepoInterface = $orderRepoInterface;
     }
 
 
@@ -35,6 +37,16 @@ class AdminController extends Controller
     public function editSingleDateForm($id){
         $date_details = $this->dateDeliveryRepoInterface->findDate(['id'=>$id]);
         return view('admin.edit-single',['date_details'=> $date_details]);
+    }
+
+    public function orderView(){
+        $order_details = $this->orderRepoInterface->getAll();
+        return view('admin.order-lists',['order_details'=>$order_details ]);
+    }
+
+    public function viewOrderDetails($id){
+        $order_detail = $this->orderRepoInterface->getSingle(['id'=>$id]);
+        return view('admin.order-detail',['order_detail'=> $order_detail]);
     }
 
 }

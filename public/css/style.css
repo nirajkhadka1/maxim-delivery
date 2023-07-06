@@ -73,3 +73,7 @@ body {
 .weekend span {
         background-color: lightyellow !important;
 }
+.active{
+    background-color: #0c7f40 !important;
+    border: #187d45 !important;
+}

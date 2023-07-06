@@ -1,6 +1,10 @@
 @extends('layouts.header')
 
 @section('load-content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/client-form.css') }}" />
     <style>
         .form-check-input:checked {
             background-color: #0dfd31 !important;
@@ -38,7 +42,6 @@
                                 <td>
                                     <button type="button" class="btn btn-danger deleteDateBtn"
                                         data-id={{ $available_date->id }}>Delete</button>
-                                    {{-- <a href="/v1/available-date/{{$available_date->id}}"><button type="button" class="btn btn-success">Edit</button></a> --}}
                                 </td>
                                 <td>
                                     <div class="btn-group btn-toggle" style="background: #cbc9c9">

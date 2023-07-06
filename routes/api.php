@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\v1\api\AdminController;
+use App\Http\Controllers\v1\api\ClientController;
+use App\Http\Controllers\v1\api\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +27,12 @@ Route::namespace('v1/api')->prefix('/admin')->group(function(){
         Route::delete('/{id}',[AdminController::class,'deleteDate']);
         Route::put('/{id}',[AdminController::class,'updateDate']);
     });
+
+    Route::prefix('/location')->group(function () {
+        Route::post('/',[LocationController::class,'storeLocation']);
+    });
+});
+
+Route::prefix('client_form')->group(function (){
+    Route::post('/submit',[ClientController::class,'submit']);
 });

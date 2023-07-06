@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
         $repoClass = [
             'DateDelivery',
             'History',
+            'Location',
+            'Orders',
+            'School'
         ];
 
         foreach ($repoClass as $repo_class) {

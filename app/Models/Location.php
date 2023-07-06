@@ -9,13 +9,14 @@ class Location extends Model
 {
     use HasFactory;
 
-    protected $incrementing = true;
+    public $incrementing = true;
     
     protected $fillable= [
         'id',
         'postal_code',
-        'address',
+        'geolocation',
         'created_at',
         'updated_at'
     ];
 }
+    

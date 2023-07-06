@@ -9,16 +9,22 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $incrementing = true;
+    public $incrementing = true;
     
     protected $fillable= [
         'id',
         'school_id',
         'status',
-        'shipping_address',
-        'available_delivery_date',
+        'address',
+        'delivery_date',
         'remarks',
+        'postal_code',
+        'geolocation',
         'created_at',
         'updated_at'
     ];
+
+    public function school(){
+        return $this->belongsTo(School::class);
+    }
 }
