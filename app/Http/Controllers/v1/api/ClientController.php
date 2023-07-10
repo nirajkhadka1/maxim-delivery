@@ -28,8 +28,8 @@ class ClientController extends Controller
             'address' => 'required|max:50',
             'primary_email_address' => 'required|regex:/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/',
             'secondary_email_address' => 'nullable|regex:/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/',
-            'primary_contact_number' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
-            'secondary_contact_number' => 'nullable|regex:/^\+?[1-9]\d{1,14}$/',
+            'primary_contact_number' => 'required|regex:/^(\+?61|0)4[0-9]{8}$/',
+            'secondary_contact_number' => 'nullable|regex:/^(\+?61|0)4[0-9]{8}$/',
             'delivery_date' => 'required|date_format:Y-m-d',
             'notification_medium' => 'required|in:sms,email,both',
             'postal_code' => 'required',
@@ -62,7 +62,6 @@ class ClientController extends Controller
             return $this->successReponse("Order Placed Successfully");
         }
         catch(Throwable $th){
-            dd($th);
             DB::rollBack();
             throw $th;
         }

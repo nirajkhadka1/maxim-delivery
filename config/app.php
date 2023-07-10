@@ -185,4 +185,15 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'paths'=> [
+        'date' =>[
+            'modify-dates',
+            'dates'
+        ],
+        'order' => [
+            'order',
+            'view-orders'   
+        ]
+    ]
+
 ];

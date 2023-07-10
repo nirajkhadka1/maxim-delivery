@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('postal_code');
             $table->string('geolocation');
+            $table->string('suburb');
             $table->timestamps();
         });
     }

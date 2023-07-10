@@ -48,7 +48,7 @@ class DateDeliveryRepo implements DateDeliveryRepoInterface{
         return DeliveryDate::orderBy('updated_at','DESC')->get();
     }
     public function findDate(array $condition){
-        return History::where($condition)->first();
+        return DeliveryDate::where($condition)->first();
     }
 
     public function addDate(array $payload)

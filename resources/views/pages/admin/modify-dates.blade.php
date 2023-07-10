@@ -1,6 +1,6 @@
-@extends('layouts.header')
+@extends('layouts.main-admin')
 
-@section('load-content')
+@section('load-css')
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -15,9 +15,6 @@
 @endsection
 
 <body>
-    @extends('layouts.navigation')
-    @extends('layouts.main-content')
-
     @section('main-content')
         <div class="card mt-5">
             <form class="card-body" id="addDateForm">
@@ -45,8 +42,7 @@
         </div>
     @endsection
 
-    @extends('layouts.include-scripts')
-    @section('load-scripts')
+    @section('include-scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-ui-multidatespicker@1.6.6/jquery-ui.multidatespicker.js"></script>
@@ -241,5 +237,3 @@
             }
         </script>
     @endsection
-
-    @extends('layouts.footer')

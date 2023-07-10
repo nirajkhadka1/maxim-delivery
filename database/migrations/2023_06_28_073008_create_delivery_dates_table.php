@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_dates', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('dates');
+            $table->date('dates');
             $table->enum('status',['on','off']);
             $table->timestamps();
         });

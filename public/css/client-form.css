@@ -184,6 +184,10 @@ tr {
   background: white;
   font-weight: 700;
 }
+.ui-state-active{
+  color: #0037ff !important;
+
+}
 .select2-container--default .select2-selection--single {
   border-radius: 0 !important;
   height: 48px !important;

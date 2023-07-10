@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('school_id');
             $table->enum('status', ['requested', 'modified', 'completed'])->nullable();
             $table->string('address', 255);
-            $table->dateTime('delivery_date');
+            $table->date('delivery_date');
             $table->string('postal_code');
             $table->string('geolocation');
             $table->enum('notification_medium', ['sms', 'email', 'both']);

@@ -8,6 +8,7 @@ use App\Repositories\contracts\HistoryRepoInterface;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\ServiceResponser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -46,7 +47,7 @@ class AdminController extends Controller
 
         try{
             DB::beginTransaction();
-            $deliveryDate = $this->dateDeliveryRepoInterface->findDate(['id'=>$id]);
+            $deliveryDate = $this->dateDeliveryRepoInterface->findDate([ 'id' => $id]);
             if(!$deliveryDate){
                 return $this->errorResponse("Date does not Exists !!",400);
             }
@@ -64,6 +65,7 @@ class AdminController extends Controller
             return $this->successReponse("Successfully Deleted !!");
         }
         catch(Throwable $th){
+            dd($th);
             DB::rollBack();
             return $this->errorResponse($th->getMessage(),$th->getCode());
         }
@@ -91,6 +93,17 @@ class AdminController extends Controller
         catch(Throwable $th){
             DB::rollBack();
             throw $th;
+        }
+    }
+
+    public function login(){
+        $credentials = $this->request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed
+            return $this->successReponse("SUCCESS");
+        } else {
+           dd("Failed");
         }
     }
 }

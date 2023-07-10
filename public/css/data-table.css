@@ -1,0 +1,21 @@
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+  }
+  button {
+    height: 40px;
+    width: 100px;
+    background-color: #008cba;
+    color: white;
+    border: none;
+    /* border-radius: 12px; */
+  }
+  thead {
+    background-color: #e7e7e7;
+    color: black;
+  }
+  table.dataTable {
+    margin-top: 12px;
+  }
+  

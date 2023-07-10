@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\v1\SchoolClient\SchoolClient;
+use App\Http\Controllers\v1\web\ClientController;
 use App\Http\Controllers\v1\web\AdminController;
-use App\Models\Admin;
+use App\Http\Controllers\v1\web\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,19 +15,21 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('admin.edit-date');
-});
 Route::prefix('v1')->namespace('v1/web')->group(function(){
-    Route::get('/client-form',[ClientController::class,'showForm']);
-    Route::prefix('/admin')->group(function(){
+
+    Route::prefix('client')->group(function(){
+        Route::get('/form',[ClientController::class,'showForm']);
+    });
+
+    Route::prefix('/admin')->middleware(['auth'])->group(function(){
         Route::get('/view-orders',[AdminController::class,'orderView']);
         Route::get('/order/{id}',[AdminController::class,'viewOrderDetails']);
-        Route::get('/available-dates',[AdminController::class,'viewAvailableDates']);
-        Route::get('/add-available-date',[AdminController::class,'addAvailableDates']);
-        Route::get('/edit-available-date',[AdminController::class,'editAvailableDates']);
-    Route::get('/edit-date/{id}',[AdminController::class,'editSingleDateForm']);
+        Route::get('/dates',[AdminController::class,'dateLists'])->name('date-view');
+        Route::get('/modify-dates',[AdminController::class,'modifyDates']);
     });
+
+    Route::get('/login',[AuthController::class,'login'])->name('web.login');
+    Route::get('/logout',[AuthController::class,'logout']);
+    Route::post('/authenticate',[AuthController::class,'authenticate']);
+
 });
-Route::get('/delivery-form',[SchoolClient::class,'showForm']);

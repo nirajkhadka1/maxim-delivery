@@ -1,16 +1,23 @@
+@php
+    $date_paths = config('app.paths.date');
+    $order_paths = config('app.paths.order');
+    $segments = explode('/',request()->path());
+    $route = $segments[2] ;
+@endphp
 <header>
     <!-- Sidebar -->
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="{{url('/v1/admin/available-dates')}}" class="list-group-item list-group-item-action py-2 ripple {{request()->is('v1/admin/available-dates')?'active':''}}" aria-current="true">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dates</span>
+                <a href="{{url('/v1/admin/dates')}} " class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$date_paths) ? 'active' : ''}}" aria-current="true">
+                    <i class="fas fa-solid fa-calendar fa-fw me-3"></i><span>Dates</span>
                 </a>
                 {{-- <a href="#" class="list-group-item list-group-item-action py-2 ripple">
                         <i class="fas fa-chart-area fa-fw me-3"></i><span></span>
                     </a> --}}
-                <a href="{{url('/v1/admin/order/1')}}" class="list-group-item list-group-item-action py-2 ripple {{request()->is('v1/admin/order/1') ? 'active':''}}">
-                    <i class="fas fa-chart-area fa-fw me-3"></i><span>Orders</span>
+                <a href="{{url('/v1/admin/view-orders')}}" class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$order_paths) ? 'active':''}}">
+                    <i class="fas fa-sharp fa-solid fa-cart-shopping fa-fw me-3"></i>
+                    <span>Orders</span>
                 </a>
                     {{--
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -50,15 +57,14 @@
             <!-- Brand -->
             <a class="navbar-brand" href="#">
                 <img src="{{asset('images/logo.png')}}" height="25"
-                    alt="MDB Logo" loading="lazy" />
+                    alt="Maximum Delivery Logo" loading="lazy" />
             </a>
 
             <!-- Right links -->
             <ul class="navbar-nav ms-auto d-flex flex-row">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdownMenuLink"
-                        role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        <i style="color: black;font-size:10px" class="fa-solid fa-right-from-bracket"></i>
+                    <a class="nav-link d-flex align-items-center" href="{{url('v1/logout')}}">
+                        <button class="btn btn-danger"><i class="fa-sharp fa-solid fa-right-from-bracket"></i></button>
                     </a>
                 </li>
             </ul>

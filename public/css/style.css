@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,600&display=swap');
+
+
+
 body {
     background-color: #fbfbfb;
+    font-family: 'Poppins', sans-serif;
 }
 
 @media (min-width: 991.98px) {
@@ -77,3 +82,5 @@ body {
     background-color: #0c7f40 !important;
     border: #187d45 !important;
 }
+
+

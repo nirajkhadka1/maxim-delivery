@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\SendSmsController;
 use App\Http\Controllers\v1\api\AdminController;
 use App\Http\Controllers\v1\api\ClientController;
 use App\Http\Controllers\v1\api\LocationController;
+use App\Http\Controllers\v1\api\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,16 +24,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::namespace('v1/api')->prefix('/admin')->group(function(){
+    Route::post('/login',[AdminController::class,'login']);
     Route::prefix('/date')->group(function(){
         Route::post('/',[AdminController::class,'addDate']);
         Route::delete('/{id}',[AdminController::class,'deleteDate']);
         Route::put('/{id}',[AdminController::class,'updateDate']);
     });
 
+
+
     Route::prefix('/location')->group(function () {
         Route::post('/',[LocationController::class,'storeLocation']);
     });
+
+    Route::prefix('/orders')->group(function(){
+        Route::put('/{id}',[OrderController::class,'updateOrder']);
+        
+    });
+
 });
+Route::post('/send-sms',[SendSmsController::class,'sendMessage']);
 
 Route::prefix('client_form')->group(function (){
     Route::post('/submit',[ClientController::class,'submit']);

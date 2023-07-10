@@ -5,7 +5,9 @@ namespace App\Http\Controllers\v1\web;
 use App\Http\Controllers\Controller;
 use App\Repositories\contracts\DateDeliveryRepoInterface;
 use App\Repositories\contracts\OrdersRepoInterface;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -17,36 +19,32 @@ class AdminController extends Controller
     }
 
 
-    public function addAvailableDates(){
-        $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
-        $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'off'])->pluck('dates');
-        return view('admin.add-available-date')->with('available_date',$dates)->with('disable_date',$disable_dates);
+    public function modifyDates(){
+        try{
+            $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
+            $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'off'])->pluck('dates');
+            return view('pages.admin.modify-dates')->with('available_date',$dates)->with('disable_date',$disable_dates);
+        }
+        catch(Exception $ex){
+            Log::info($ex->getMessage());
+        }
     }
 
-    public function viewAvailableDates(){
+    public function dateLists(){
         $availableDates = $this->dateDeliveryRepoInterface->getAllAvailableDates();
-        return view('admin.view-available-dates',['available_dates'=> $availableDates]);
-    }
-
-    public function editAvailableDates(){
-        $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
-        $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'off'])->pluck('dates');
-        return view('admin.disable-date')->with('available_date',$dates)->with('disable_date',$disable_dates);
+        return view('pages.admin.dates',['available_dates'=> $availableDates]);
     }
     
-    public function editSingleDateForm($id){
-        $date_details = $this->dateDeliveryRepoInterface->findDate(['id'=>$id]);
-        return view('admin.edit-single',['date_details'=> $date_details]);
-    }
-
     public function orderView(){
         $order_details = $this->orderRepoInterface->getAll();
-        return view('admin.order-lists',['order_details'=>$order_details ]);
+        return view('pages.admin.order-lists',compact('order_details'));
     }
 
     public function viewOrderDetails($id){
         $order_detail = $this->orderRepoInterface->getSingle(['id'=>$id]);
-        return view('admin.order-detail',['order_detail'=> $order_detail]);
+        $available_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=>'on'])->pluck('dates');
+        $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=>'off'])->pluck('dates');
+        return view('pages.admin.order-detail',['order_detail'=> $order_detail,'available_dates'=> $available_dates,'disable_dates'=>$disable_dates]);
     }
 
 }

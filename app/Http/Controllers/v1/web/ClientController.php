@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1\web;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\contracts\DateDeliveryRepoInterface;
-use App\Repositories\contracts\LocationRepoInterface;
-use Illuminate\Http\Request;
+use App\Repositories\contracts\LocationRepoInterface;   
 
 class ClientController extends Controller
 {
@@ -17,7 +17,6 @@ class ClientController extends Controller
     public function showForm(){
         $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
         $geolocationDetails = $this->locationRepoInterface->getAll();
-        // dd($geolocationDetails);
-        return view('client.form',['geolocation_details' => $geolocationDetails])->with('available_date',$dates);
+        return view('pages.client.form',['geolocation_details' => $geolocationDetails])->with('available_date',$dates);
     }
 }
