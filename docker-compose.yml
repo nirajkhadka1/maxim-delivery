@@ -1,0 +1,67 @@
+version: '3'
+services:
+
+  #PHP Service
+  maxim-delivery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: maxim-delivery    
+    container_name: maxim-delivery
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - maxim-delivery-network
+
+  #Nginx Service
+  nginx:
+    image: nginx
+    container_name: nginx
+    tty: true
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - maxim-delivery-network
+    depends_on:
+      - maxim-delivery
+
+  #mariadb
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_USERNAME: root
+      MYSQL_DATABASE: maxim-delivery
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - maxim-delivery-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8020:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - maxim-delivery-network
+    links:
+      - mariadb
+
+volumes:
+  mariadb:
+
+#Docker Networks
+networks:
+  maxim-delivery-network:
+     external: true

@@ -28,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
             'History',
             'Location',
             'Orders',
-            'School'
+            'School',
+            'PostalCode'
         ];
 
         foreach ($repoClass as $repo_class) {

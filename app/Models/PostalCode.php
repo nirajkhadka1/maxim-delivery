@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class PostalCode extends Model
 {
     use HasFactory;
 
@@ -13,20 +13,15 @@ class Location extends Model
     
     protected $fillable= [
         'id',
-        'postal_code_id',
-        'geolocation',
+        'location_id',
+        'code',
         'suburb',
-        'config',
-        'start_date',
-        'order_count',
-        'custom_dates',
         'created_at',
         'updated_at'
     ];
-
-    public function postalCodes()
+    
+    public function location()
     {
-        return $this->belongsToMany(PostalCode::class);
+        return $this->belongsTo(Location::class);
     }
 }
-    

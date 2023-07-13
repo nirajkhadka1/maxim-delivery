@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\DeliveryDate;
+use App\Models\Location;
 use App\Models\Order;
 use App\Models\School;
 use Faker\Factory as Faker;
@@ -27,8 +28,8 @@ class OrdersTableSeeder extends Seeder
                     'school_id' => $school->id,
                     'address'=> $faker->address(),
                     'delivery_date' => $date,
-                    'postal_code' => $faker->postcode(),
-                    'geolocation' => $faker->address(),
+                    'postal_code' => $faker->address(),
+                    'geolocation' => $faker->randomElement(Location::all()->pluck('geolocation')),
                     'notification_medium' => $medium[rand(0,2)]
                 ]);
 

@@ -11,7 +11,18 @@
     <link rel="stylesheet" href="{{ asset('css/client-form.css') }}">
 
     {{-- <link rel="stylesheet" href="{{ asset('css/date-time-picker.css') }}" /> --}}
+    <style>
+        button:disabled,
+        button[disabled] {
+            color: #fff;
+            pointer-events: none;
+            background-color: #0c7f40;
+            border-color: #0c7f40;
+            opacity: 0.6;
+        }
+    </style>
 @endsection
+
 
 @section('main-content')
     <main>
@@ -70,13 +81,6 @@
                         </div>
                     </fieldset>
                     <fieldset class="form_sections">
-                        <div class="label">
-                            <label>Delivery Date</label>
-                            <input type="text" name="delivery_date" id="datetimepicker"
-                                placeholder="Select Delivery Date" readonly onfocus="(this.type='date')"
-                                name="delivery_date">
-
-                        </div>
                         {{-- <div class="label">
                         <label>Delivery Time Range</label>
                         <select class="select" name="range">
@@ -96,14 +100,12 @@
                                 <option value="both">Both</option>
                             </select>
                         </div>
-                    </fieldset>
-                    <fieldset class="form_sections">
                         <div class="label">
                             <label>Postal Code</label>
                             <select id="postal_code" name="postal_code">
                                 <option value="" disabled selected>Select</option>
-                                @foreach ($geolocation_details as $geolocation)
-                                    <option value="{{ $geolocation->postal_code }}">{{ $geolocation->postal_code }}
+                                @foreach ($postal_codes as $postal_code)
+                                    <option value="{{ $postal_code->code }}">{{ $postal_code->code }}
                                     </option>
                                 @endforeach
                             </select>
@@ -112,24 +114,19 @@
 
                     <fieldset class="form_sections" id="geolocationDiv" style="display: none">
                         <div class="label">
+                            <label>Geolocation</label>
                             <input type="text" id="geolocation" name="geolocation" readonly>
                         </div>
-                    </fieldset>
-
-                    <fieldset class="form_sections">
-
                         <div class="label">
-                            <input type="text" id="geolocation" name="geolocation" style="display: none;"
-                                placeholder="Enter Postal Code" autocomplete="off" name="geolocation" value=""
-                                readonly>
+                            <label>Delivery Date</label>
+                            <input type="text" name="delivery_date" id="datetimepicker"
+                                placeholder="Select Delivery Date" readonly onfocus="(this.type='date')"
+                                name="delivery_date">
                         </div>
                     </fieldset>
 
                     <div class="form_buttons">
-                        {{-- <button class="button btn_Cancel">
-                        Cancel
-                    </button> --}}
-                        <button class="button btn_Submit" id="place-order">
+                        <button class="button btn_Submit" id="place-order" disabled>
                             Submit
                         </button>
                     </div>
@@ -147,37 +144,30 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="{{ asset('js/helpers.js') }}"></script>
     <script>
-        var availableDates = {!! json_encode($available_date) !!};
-        var geolocationDetails = {!! json_encode($geolocation_details) !!};
+        var postal_codes = {!! json_encode($postal_codes) !!};
 
-
-        function enableSelectedDatesAndDisableWeekends(date) {
+        function enableSelectedDatesAndDisableWeekends(enabledDates, date) {
             var day = date.getDay();
             var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
 
             // Check if the date is available
-            var isAvailable = availableDates.includes(formattedDate);
+            var isAvailable = enabledDates.includes(formattedDate);
 
             // Determine the CSS class for the date
-            var cssClass = isAvailable && 'available';
+            var cssClass = isAvailable ? 'available' : '';
 
             // Determine the tooltip for the date
             var tooltip = isAvailable ? 'Available' : 'Unavailable';
-
-            // Determine if the date should have a custom color
 
             if (day === 0 || day === 6) {
                 cssClass += ' weekend';
                 return [false, cssClass, tooltip];
             }
-            return [availableDates.indexOf(formattedDate) > -1 && date.getDay() !== 0 && date.getDay() !== 6, cssClass,
-                tooltip
-            ];
+
+            return [isAvailable, cssClass, tooltip];
         }
 
-
         $(document).ready(function() {
-
             $('select').click(function() {
                 $(this).toggleClass('open');
             });
@@ -185,46 +175,35 @@
             $('#range').select2();
             $('#postal_code').select2();
             $('#postal_code').on('select2:select', function(e) {
-                console.log("HERE");
+                $('#place-order').attr('disabled', false);
                 var selectedOption = e?.params?.data?.id;
                 let typedVal = $("#postal_code").val();
                 if (typedVal) {
-                    let geoLocation = geolocationDetails?.filter(element => element.postal_code ===
+                    let geoLocation = postal_codes?.filter(element => element.code ===
                         selectedOption);
-                    $("#geolocationDiv").show();
-                    $('#geolocation').val(geoLocation[0]?.geolocation);
+                    $('#geolocation').val(geoLocation[0]?.location?.geolocation);
+                    let locationId = geoLocation[0]?.location?.id
+                    let url = `{{ url('/api/admin/location/enabled-dates/${locationId}') }}`
+                    $.ajax({
+                        method: 'GET',
+                        url: url,
+                        success: function(response) {
+                            if (response?.response) {
+                                $('#datetimepicker').datepicker("destroy").datepicker({
+                                    dateFormat: 'yy-mm-dd',
+                                    beforeShowDay: function(date) {
+                                        return enableSelectedDatesAndDisableWeekends(
+                                            response?.response, date);
+                                    }
+                                });
+                                $("#geolocationDiv").show();
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    })
                 }
-            });
-            // $('#postal_code').keyup(function() {
-            //     console.log("HERE");
-            //     clearTimeout(typingTimer);
-            //     typingTimer = setTimeout(doneTyping, 2000);
-            // });
-
-            // $('#postal_code').keydown(function() {
-            //     clearTimeout(typingTimer);
-            //     typingTimer = setTimeout(doneTyping, 2000);
-            // });
-
-            // function doneTyping() {
-            //     let typedVal = $("#postal_code").val();
-            //     console.log(geolocationDetails);
-            //     let is_valid_post = geolocationDetails?.filter(element => element.postal_code ===
-            //         typedVal);
-            //     if (is_valid_post?.length === 0) {
-            //         alert("Invalid Postal Code");
-            //         $("#place-order").attr("disabled", true);
-            //     } else {
-            //         $("#place-order").attr("disabled", false);
-            //         console.log(is_valid_post);
-            $('#postalCodes').select2();
-            //         // $("#geolocation").val()
-
-            //     }
-            // }
-            $('#datetimepicker').datepicker({
-                dateFormat: "yy-mm-dd",
-                beforeShowDay: enableSelectedDatesAndDisableWeekends
             });
 
             $("#place-order").click(function(e) {
@@ -297,6 +276,7 @@
                         console.log(response)
                         alert(response?.response);
                     },
+
                     error: function(xhr, status, error) {
                         console.log(error);
                     }
@@ -313,7 +293,6 @@
                         break;
                     }
                 }
-                console.log(errorMsg);
                 return errorMsg;
             }
 

@@ -31,10 +31,10 @@ Route::namespace('v1/api')->prefix('/admin')->group(function(){
         Route::put('/{id}',[AdminController::class,'updateDate']);
     });
 
-
-
     Route::prefix('/location')->group(function () {
         Route::post('/',[LocationController::class,'storeLocation']);
+        Route::put('/{id}',[LocationController::class,'update'])->name('api.location-update');
+        Route::get('/enabled-dates/{id}',[LocationController::class,'getEnabledDate']);
     });
 
     Route::prefix('/orders')->group(function(){

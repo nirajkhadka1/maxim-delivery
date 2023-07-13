@@ -4,26 +4,35 @@ namespace App\Http\Controllers\v1\web;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\contracts\DateDeliveryRepoInterface;
+use App\Repositories\contracts\LocationRepoInterface;
 use App\Repositories\contracts\OrdersRepoInterface;
+use App\Repositories\contracts\PostalCodeRepoInterface;
+use App\Repositories\LocationRepo;
 use Exception;
+use Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    private $dateDeliveryRepoInterface,$orderRepoInterface;
-    function __construct(DateDeliveryRepoInterface $dateDeliveryRepoInterface,OrdersRepoInterface $orderRepoInterface)
+    private $dateDeliveryRepoInterface,$orderRepoInterface,$locationRepoInterface,$postalCodeRepoInterface;
+    function __construct(DateDeliveryRepoInterface $dateDeliveryRepoInterface,OrdersRepoInterface $orderRepoInterface,LocationRepoInterface $locationRepoInterface,PostalCodeRepoInterface $postalCodeRepoInterface)
     {
         $this->dateDeliveryRepoInterface = $dateDeliveryRepoInterface;
         $this->orderRepoInterface = $orderRepoInterface;
+        $this->locationRepoInterface = $locationRepoInterface;
+        $this->postalCodeRepoInterface = $postalCodeRepoInterface;
     }
 
 
     public function modifyDates(){
         try{
-            $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
-            $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'off'])->pluck('dates');
-            return view('pages.admin.modify-dates')->with('available_date',$dates)->with('disable_date',$disable_dates);
+            // $dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'on'])->pluck('dates');
+            // $disable_dates = $this->dateDeliveryRepoInterface->getAvailableDate(['status'=> 'off'])->pluck('dates');
+            // return view('pages.admin.location-wise-date')->with('available_date',$dates)->with('disable_date',$disable_dates);
+            $locations = $this->locationRepoInterface->getAll('geolocation');
+            return view('pages.admin.location-wise-date')->with('geolocations',$locations);
+            
         }
         catch(Exception $ex){
             Log::info($ex->getMessage());

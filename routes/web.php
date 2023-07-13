@@ -33,3 +33,4 @@ Route::prefix('v1')->namespace('v1/web')->group(function(){
     Route::post('/authenticate',[AuthController::class,'authenticate']);
 
 });
+    

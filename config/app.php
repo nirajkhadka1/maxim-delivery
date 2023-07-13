@@ -194,6 +194,13 @@ return [
             'order',
             'view-orders'   
         ]
-    ]
+        ],
+
+        'regularites'=>[
+            'daily',
+            'weekly',
+            'monthly',
+            'custom'
+        ]
 
 ];
