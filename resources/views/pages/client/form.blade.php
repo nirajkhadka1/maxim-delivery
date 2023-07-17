@@ -225,6 +225,7 @@
                     value: geolocationVal
                 });
                 let payload = convertFormDataToObject(formData);
+                console.log(payload);
                 let requiredFields = [
                     'name',
                     'primary_contact_number',
@@ -308,7 +309,7 @@
             }
 
             function isValidPhoneNumber(phoneNumber) {
-                const regex = /^(\+?61|0)4[0-9]{8}$/;
+                const regex = /^(\+61|0)[2-9]\d{8}$/ ;
                 return regex.test(phoneNumber);
             }
 

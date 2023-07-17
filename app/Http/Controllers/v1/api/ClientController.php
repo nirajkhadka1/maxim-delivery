@@ -62,6 +62,7 @@ class ClientController extends Controller
             return $this->successReponse("Order Placed Successfully");
         }
         catch(Throwable $th){
+            dd($th);
             DB::rollBack();
             throw $th;
         }
