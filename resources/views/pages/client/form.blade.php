@@ -7,6 +7,8 @@
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
     {{-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css"> --}}
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     {{-- <link rel="stylesheet" href="{{asset('css/style.css')}}"> --}}
     <link rel="stylesheet" href="{{ asset('css/client-form.css') }}">
 
@@ -45,12 +47,12 @@
                 <form class="form" id="client-form">
                     <fieldset class="form_sections">
                         <div class="label">
-                            <label>School's Name</label>
+                            <label>School's Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" id="" placeholder="Enter School's Name"
                                 name="name">
                         </div>
                         <div class="label">
-                            <label>School's Complete Address</label>
+                            <label>School's Complete Address <span class="text-danger">*</span></label>
                             <input type="text" name="address" id="" placeholder="Enter School's Address"
                                 name="address">
                         </div>
@@ -58,7 +60,7 @@
                     </fieldset>
                     <fieldset class="form_sections">
                         <div class="label">
-                            <label>School's Email Address</label>
+                            <label>School's Email Address <span class="text-danger">*</span></label>
                             <input type="text" name="primary_email_address" id=""
                                 placeholder="Enter School's Email Address" name="primary_email_address">
                         </div>
@@ -70,7 +72,7 @@
                     </fieldset>
                     <fieldset class="form_sections">
                         <div class="label">
-                            <label>Main Contact Mobile Number</label>
+                            <label>Main Contact Mobile Number <span class="text-danger">*</span></label>
                             <input type="text" name="primary_contact_number" id=""
                                 placeholder="Enter Contact Person's Mobile Number" name="primary_contact_number">
                         </div>
@@ -92,7 +94,7 @@
                         </select>
                     </div> --}}
                         <div class="label">
-                            <label>Notification Medium</label>
+                            <label>Notification Medium <span class="text-danger">*</span></label>
                             <select id="notification" name="notification_medium">
                                 <option value="" disabled selected>Select Notification Medium</option>
                                 <option value="sms">SMS</option>
@@ -101,7 +103,7 @@
                             </select>
                         </div>
                         <div class="label">
-                            <label>Postal Code</label>
+                            <label>Postal Code <span class="text-danger">*</span></label>
                             <select id="postal_code" name="postal_code">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($postal_codes as $postal_code)
@@ -109,16 +111,17 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <spa
                         </div>
                     </fieldset>
 
                     <fieldset class="form_sections" id="geolocationDiv" style="display: none">
                         <div class="label">
-                            <label>Geolocation</label>
+                            <label>Geolocation <span class="text-danger">*</span></label>
                             <input type="text" id="geolocation" name="geolocation" readonly>
                         </div>
                         <div class="label">
-                            <label>Delivery Date</label>
+                            <label>Delivery Date <span class="text-danger">*</span></label>
                             <input type="text" name="delivery_date" id="datetimepicker"
                                 placeholder="Select Delivery Date" readonly onfocus="(this.type='date')"
                                 name="delivery_date">
@@ -175,7 +178,6 @@
             $('#range').select2();
             $('#postal_code').select2();
             $('#postal_code').on('select2:select', function(e) {
-                $('#place-order').attr('disabled', false);
                 var selectedOption = e?.params?.data?.id;
                 let typedVal = $("#postal_code").val();
                 if (typedVal) {
@@ -189,14 +191,21 @@
                         url: url,
                         success: function(response) {
                             if (response?.response) {
-                                $('#datetimepicker').datepicker("destroy").datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    beforeShowDay: function(date) {
-                                        return enableSelectedDatesAndDisableWeekends(
-                                            response?.response, date);
-                                    }
-                                });
-                                $("#geolocationDiv").show();
+                                if (response?.response?.length === 0) {
+                                    alert(
+                                        'Sorry delivery is not available in this address at this moment !!');
+                                    return;
+                                } else {
+                                    $('#datetimepicker').datepicker("destroy").datepicker({
+                                        dateFormat: 'yy-mm-dd',
+                                        beforeShowDay: function(date) {
+                                            return enableSelectedDatesAndDisableWeekends(
+                                                response?.response, date);
+                                        }
+                                    });
+                                    $('#place-order').attr('disabled', false);
+                                    $("#geolocationDiv").show();
+                                }
                             }
                         },
                         error: function(error) {
@@ -208,6 +217,7 @@
 
             $("#place-order").click(function(e) {
                 e.preventDefault();
+                $('.overlay').css('visibility','visible');
                 let geolocationVal = $('#geolocation').val();
                 let formData = $('#client-form').serializeArray();
                 formData.push({
@@ -273,11 +283,12 @@
                     url: "{{ url('/api/client_form/submit') }}",
                     data: payload,
                     success: function(response) {
-                        console.log(response)
+                        $('.overlay').css('visibility','hidden');
                         alert(response?.response);
                     },
 
                     error: function(xhr, status, error) {
+                        $('.overlay').css('visibility','hidden');
                         console.log(error);
                     }
                 })

@@ -115,7 +115,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-ui-multidatespicker@1.6.6/jquery-ui.multidatespicker.js"></script>
     <script>
         var availableDates = {!! json_encode($available_dates) !!};
-        var disableDates = {!! json_encode($disable_dates) !!};
 
         $(document).ready(function() {
             $('#datetimepicker').datepicker({
@@ -126,6 +125,7 @@
 
             $('#modify_date').click(function(e) {
                 e.preventDefault();
+                $('.overlay').css('visibility','visible');
                 let deliveryDate = $('.delivery_date').val();
                 let currentDeliveryDate = "{{ $delivery_date }}";
                 let id = {{ $order_detail->id }}
@@ -141,9 +141,11 @@
                             delivery_date: deliveryDate
                         },
                         success: function(response) {
+                            $('.overlay').css('visibility','hidden');
                             alert(response?.response);
                         },
                         error: function(xhr, status, error) {
+                            $('.overlay').css('visibility','hidden');
                             alert(xhr?.xhr?.responseJSON?.response ?? 'Something went wrong');
                         }
                     })
@@ -156,9 +158,6 @@
                 var isAvailable = availableDates.includes(formattedDate);
                 var cssClass = isAvailable && 'available';
                 var tooltip = isAvailable ? 'Available' : 'Unavailable';
-                if (disableDates.includes(formattedDate)) {
-                    cssClass += ' disable-color';
-                }
                 if (day === 0 || day === 6) {
                     cssClass += ' weekend';
                     return [false, cssClass, tooltip];

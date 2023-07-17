@@ -26,7 +26,7 @@ class OrderController extends Controller
         ]);
         try{
             $this->ordersRepoInterface->update($this->request->all(),['id'=> $id]);
-            return $this->successReponse("Successfully updated order:$id");
+            return $this->successReponse("Successfully updated order $id");
         }
         catch(Throwable $th){
             throw $th;

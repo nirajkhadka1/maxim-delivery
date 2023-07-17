@@ -9,13 +9,14 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/jquery-ui-multidatespicker@1.6.6/jquery-ui.multidatespicker.css">
-
+    <link rel="stylesheet" href="{{asset('css/loader.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/style.css')}}"/>  
+    <link rel="stylesheet" href="{{asset('css/client-form.css')}}"/>  
+
     <link rel="stylesheet" href="{{ asset('css/date-time-picker.css') }}" />
 @endsection
 
-<body>
-    @section('main-content')
+@section('main-content')
         <div class="card mt-5">
             <form class="card-body" id="addDateForm">
                 <div class="form-group mt-4">
@@ -37,11 +38,11 @@
                 <div id="rest">
 
                 </div>
-
             </form>
         </div>
     @endsection
 
+    
     @section('include-scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>

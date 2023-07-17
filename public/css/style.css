@@ -78,9 +78,26 @@ body {
 .weekend span {
         background-color: lightyellow !important;
 }
-.active{
+.nav-active{
     background-color: #0c7f40 !important;
     border: #187d45 !important;
+    color: #fff;
+}
+.nav-active:hover{
+    color: #fff !important;
+}
+.heading{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+.heading h3{
+    color: #0c7f40;
+  font-weight: 700;
+}
+.edit-active a{
+    background-color: #4cff9d !important;
+    border: 1px solid  #4cff9d !important;
 }
 
 

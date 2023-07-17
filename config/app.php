@@ -156,6 +156,8 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -163,6 +165,7 @@ return [
         /*
          * Application Service Providers...
          */
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -182,25 +185,29 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
-    'paths'=> [
-        'date' =>[
+    'paths' => [
+        'date' => [
             'modify-dates',
             'dates'
         ],
         'order' => [
             'order',
-            'view-orders'   
-        ]
+            'view-orders'
         ],
+        'locations' => [
+            'location'
+        ],
+    ],
 
-        'regularites'=>[
-            'daily',
-            'weekly',
-            'monthly',
-            'custom'
-        ]
+    'regularites' => [
+        'daily',
+        'weekly',
+        'monthly',
+        'custom'
+    ]
 
 ];

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('geolocation');
             $table->text('config')->nullable();
             $table->date('start_date')->nullable();
-            $table->string('order_count')->default(0);
+            $table->string('order_limit')->default(0);
             $table->text('custom_dates')->nullable();
             $table->timestamps();
 

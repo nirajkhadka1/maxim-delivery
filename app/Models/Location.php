@@ -18,7 +18,7 @@ class Location extends Model
         'suburb',
         'config',
         'start_date',
-        'order_count',
+        'order_limit',
         'custom_dates',
         'created_at',
         'updated_at'

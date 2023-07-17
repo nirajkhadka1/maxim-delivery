@@ -34,6 +34,8 @@ trait Helpers
                 return $this->monthlyRegularity($location->start_date);
             case "custom":
                 return $this->customRegularity($location->custom_dates);
+            default :
+                return [];
         }
     }
 
@@ -66,7 +68,6 @@ trait Helpers
                 $enabledDates[] = $startDate->format('Y-m-d');
             }
         }
-
         return ['start_date'=> $date,'end_date'=> $endDate->format('Y-m-d'),'enabled_dates'=> $enabledDates];
         
     }
@@ -87,7 +88,12 @@ trait Helpers
 
     public function customRegularity($dates)
     {
-        return explode(", ", $dates);
+        $available_dates = explode(", ", $dates);
+        $sorted_dates = collect($available_dates)->sort(function($date){
+            return strtotime($date);
+        })->toArray();
+
+        return ['start_date'=> $sorted_dates[0],'end_date'=> $sorted_dates[1],'enabled_dates'=> $available_dates];
     }
 
 }

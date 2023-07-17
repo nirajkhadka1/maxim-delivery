@@ -25,8 +25,16 @@ Route::prefix('v1')->namespace('v1/web')->group(function(){
         Route::get('/view-orders',[AdminController::class,'orderView']);
         Route::get('/order/{id}',[AdminController::class,'viewOrderDetails']);
         Route::get('/dates',[AdminController::class,'dateLists'])->name('date-view');
-        Route::get('/modify-dates',[AdminController::class,'modifyDates']);
+        Route::prefix('/location')->group(function(){
+            Route::get('/edit',[AdminController::class,'modifyLocations']);
+            Route::get('/edit/{id}',[AdminController::class,'editLocation']);
+            Route::get('/',[AdminController::class,'locationLists']);
+        });
     });
+
+    Route::get('datatable', [AdminController::class,'index'])->name('datatable.index');
+    Route::get('datatable/search', [AdminController::class,'search'])->name('datatable.search');
+
 
     Route::get('/login',[AuthController::class,'login'])->name('web.login');
     Route::get('/logout',[AuthController::class,'logout']);

@@ -14,7 +14,7 @@ class OrdersRepo implements OrdersRepoInterface
 
     public function getAll()
     {
-        return Order::orderBy('updated_at', 'DESC')->get();
+        return Order::with('school')->orderBy('updated_at','DESC')->get();
     }
 
     public function getSingle(array $condition)

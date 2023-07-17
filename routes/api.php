@@ -3,6 +3,7 @@
 use App\Http\Controllers\SendSmsController;
 use App\Http\Controllers\v1\api\AdminController;
 use App\Http\Controllers\v1\api\ClientController;
+use App\Http\Controllers\v1\api\DatatableController;
 use App\Http\Controllers\v1\api\LocationController;
 use App\Http\Controllers\v1\api\OrderController;
 use Illuminate\Http\Request;
@@ -35,6 +36,12 @@ Route::namespace('v1/api')->prefix('/admin')->group(function(){
         Route::post('/',[LocationController::class,'storeLocation']);
         Route::put('/{id}',[LocationController::class,'update'])->name('api.location-update');
         Route::get('/enabled-dates/{id}',[LocationController::class,'getEnabledDate']);
+    });
+
+    Route::prefix('/datatable')->group(function(){
+        Route::get('/location/search',[DatatableController::class,'search'])->name('api.datatable.search');
+        Route::get('/order/search',[DatatableController::class,'orderSearch'])->name('api.datatable.order-search');
+
     });
 
     Route::prefix('/orders')->group(function(){

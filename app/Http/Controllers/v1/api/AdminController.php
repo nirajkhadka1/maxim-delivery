@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\PostalCode;
 use App\Repositories\contracts\DateDeliveryRepoInterface;
 use App\Repositories\contracts\HistoryRepoInterface;
 use Exception;
@@ -25,7 +26,7 @@ class AdminController extends Controller
         $this->dateDeliveryRepoInterface = $dateDeliveryRepoInterface;
         $this->historyRepoInterface = $historyRepoInterface;
     }
-
+    
     public function addDate(){
         $this->validate($this->request,[
             'dates' => 'required|array',

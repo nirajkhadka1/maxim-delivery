@@ -109,6 +109,7 @@
             });
 
             $('.modal-footer').on('click', '.editActionBtn', function() {
+                $(".overlay").css('visibility', 'visible');
                 let apiRequestData = {
                     method: '',
                     payload: ''
@@ -143,9 +144,12 @@
                         data: apiRequestData?.payload,
                         success: function(response) {
                             alert(response?.response);
+                            $(".overlay").css('visibility', 'hidden');
+
                             window.location.reload();
                         },
                         error: function(xhr, status, error) {
+                            $(".overlay").css('visibility', 'hidden');
                             console.log('POST request failed');
                             console.log(xhr?.responseJSON?.response ??
                                 'Something went wrong');
@@ -214,4 +218,3 @@
         });
     </script>
 @endsection
-

@@ -1,5 +1,5 @@
 @php
-    $date_paths = config('app.paths.date');
+    $location_paths = config('app.paths.locations');
     $order_paths = config('app.paths.order');
     $segments = explode('/',request()->path());
     $route = $segments[2] ;
@@ -9,13 +9,13 @@
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="{{url('/v1/admin/dates')}} " class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$date_paths) ? 'active' : ''}}" aria-current="true">
-                    <i class="fas fa-solid fa-calendar fa-fw me-3"></i><span>Dates</span>
+                <a href="{{url('/v1/admin/location')}} " class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$location_paths) ? 'nav-active' : ''}}" aria-current="true">
+                    <i class="fas fa-solid fa-calendar fa-fw me-3"></i><span>Locations</span>
                 </a>
                 {{-- <a href="#" class="list-group-item list-group-item-action py-2 ripple">
                         <i class="fas fa-chart-area fa-fw me-3"></i><span></span>
                     </a> --}}
-                <a href="{{url('/v1/admin/view-orders')}}" class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$order_paths) ? 'active':''}}">
+                <a href="{{url('/v1/admin/view-orders')}}" class="list-group-item list-group-item-action py-2 ripple {{in_array($route,$order_paths) ? 'nav-active':''}}">
                     <i class="fas fa-sharp fa-solid fa-cart-shopping fa-fw me-3"></i>
                     <span>Orders</span>
                 </a>

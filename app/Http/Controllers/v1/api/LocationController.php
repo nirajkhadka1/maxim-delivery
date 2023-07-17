@@ -7,6 +7,7 @@ use App\Repositories\contracts\LocationRepoInterface;
 use App\Repositories\contracts\PostalCodeRepoInterface;
 use App\Traits\ServiceResponser;
 use App\Helpers\Helpers;
+use App\Models\PostalCode;
 use App\Repositories\contracts\OrdersRepoInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -71,12 +72,15 @@ class LocationController extends Controller{
         try{
          $location = $this->locationRepoInterface->getSingle(["id"=>$id]);
          $available_dates = $this->getAvailableDays($location);
+         if(count($available_dates) === 0){
+            return $this->successReponse([]);
+         }
          $disabled_dates = $this->orderRepoInterface->getOrderExceedsDate([
             ["delivery_date",">=",$available_dates["start_date"]],
             ["delivery_date","<=",$available_dates["end_date"]],
             ["geolocation","=",$location->geolocation]
-         ],"delivery_date","count(delivery_date) >= $location->order_count");
-         $response = array_diff($available_dates['enabled_dates'],$disabled_dates);
+         ],"delivery_date","count(delivery_date) >= $location->order_limit");
+         $response = array_values(array_diff($available_dates['enabled_dates'],$disabled_dates));
          return $this->successReponse($response);
         }   
         catch(Throwable $th){
@@ -84,5 +88,5 @@ class LocationController extends Controller{
         }
     }
 
-
+    
 }

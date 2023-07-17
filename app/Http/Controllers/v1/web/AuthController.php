@@ -33,7 +33,7 @@ class AuthController extends Controller
                 $remember = true;
             }
             if(auth()->attempt($this->request->only(['username','password'],$remember))){
-                return redirect('/v1/admin/dates');
+                return redirect('/v1/admin/location');
             }
             return view('pages.login',['error_msg' => 'Incorrect Credentials']);
         }
