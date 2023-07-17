@@ -22,6 +22,7 @@
             border-color: #0c7f40;
             opacity: 0.6;
         }
+        
     </style>
 @endsection
 
@@ -48,12 +49,13 @@
                     <fieldset class="form_sections">
                         <div class="label">
                             <label>School's Name <span class="text-danger">*</span></label>
-                            <input type="text" name="name" id="" placeholder="Enter School's Name"
+                            <input type="text" name="name" id="name" placeholder="Enter School's Name"
                                 name="name">
+                            <span class="text-danger" id="error-name"></span>
                         </div>
                         <div class="label">
                             <label>School's Complete Address <span class="text-danger">*</span></label>
-                            <input type="text" name="address" id="" placeholder="Enter School's Address"
+                            <input type="text" name="address" id="address" placeholder="Enter School's Address"
                                 name="address">
                         </div>
 
@@ -61,24 +63,26 @@
                     <fieldset class="form_sections">
                         <div class="label">
                             <label>School's Email Address <span class="text-danger">*</span></label>
-                            <input type="text" name="primary_email_address" id=""
+                            <input type="text" name="primary_email_address" id="primary_email_address"
                                 placeholder="Enter School's Email Address" name="primary_email_address">
                         </div>
                         <div class="label">
                             <label>School's Phone Number</label>
-                            <input type="text" name="secondary_contact_number" id=""
+                            <input type="text" name="secondary_contact_number" id="secondary_contact_number"
                                 placeholder="Enter School's Address" name="secondary_contact_number">
                         </div>
                     </fieldset>
                     <fieldset class="form_sections">
                         <div class="label">
                             <label>Main Contact Mobile Number <span class="text-danger">*</span></label>
-                            <input type="text" name="primary_contact_number" id=""
+                            <input type="text" name="primary_contact_number" id="primary_contact_number"
                                 placeholder="Enter Contact Person's Mobile Number" name="primary_contact_number">
+                            <span class="text-danger" id="error-primary_contact_number"></span>
+
                         </div>
                         <div class="label">
                             <label>Alternative Email Address</label>
-                            <input type="text" name="secondary_email_address" id=""
+                            <input type="text" name="secondary_email_address" id="secondary_email_address"
                                 placeholder="Enter an Alternative Email Address" name="secondary_email_address">
                         </div>
                     </fieldset>
@@ -95,7 +99,7 @@
                     </div> --}}
                         <div class="label">
                             <label>Notification Medium <span class="text-danger">*</span></label>
-                            <select id="notification" name="notification_medium">
+                            <select id="notification" name="notification_medium" id="notification">
                                 <option value="" disabled selected>Select Notification Medium</option>
                                 <option value="sms">SMS</option>
                                 <option value="email">Email</option>
@@ -147,6 +151,40 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="{{ asset('js/helpers.js') }}"></script>
     <script>
+        $('#name , #primary_contact_number , #primary_email_address , #address , #delivery_date , #postal_code , #notification_medium , #geolocation').keyup(function(e){
+            if(e.target.name === 'name'){
+                if(e?.target?.value?.length <= 2){
+                    $("#error-name").text('Name should not be more than 2 characters');
+                }
+                else{
+                    $("#error-name").text('');
+                }
+            }
+            else if(e.target.name === 'primary_contact_number' || e.target.name === 'secondary_contact_number'){
+                if(!e.target.value || !isValidPhoneNumber(e?.target?.value)){
+                    $(`#error-${e.target.name}`).text('Invalid contact Number');
+                }
+                else{
+                    $(`#error-${e.target.name}`).text('Invalid contact Number');
+                }
+            }
+            else if(e.target.name === 'primary_email_address' || e.target.name === 'secondary_email_address'){
+                if(!e.target.value || !isValidEmailAddress(e?.target?.value)){
+                    $(`#error-${e.target.name}`).text('Please enter a valid email address in the format example@example.com.');
+                }
+                else{
+                    $(`#error-${e.target.name}`).text('');
+                }
+            }
+            else if(e.target.name === 'address'){
+                if(e?.target?.value?.length <= 2){
+                    $("#error-name").text('Address should not be more than 2 characters');
+                }
+                else{
+                    $("#error-name").text('');
+                }
+            }
+        })
         var postal_codes = {!! json_encode($postal_codes) !!};
 
         function enableSelectedDatesAndDisableWeekends(enabledDates, date) {
