@@ -34,13 +34,13 @@ trait Helpers
                 return $this->monthlyRegularity($location->start_date);
             case "custom":
                 return $this->customRegularity($location->custom_dates);
-            default :
+            default :   
                 return [];
         }
     }
 
     public function dailyRegularity($date)
-    {
+    {   
         $startDate = $date < Carbon::now() ? Carbon::now() : Carbon::parse($date);
         $currentDate = Carbon::parse($startDate);
         $endDate = $startDate->addMonths(3);

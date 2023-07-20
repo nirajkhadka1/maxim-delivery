@@ -32,8 +32,8 @@ class OrdersRepo implements OrdersRepoInterface
         Order::where($condition)->update($payload);
     }
 
-    public function getOrderExceedsDate(array $condition, string $field,string $have_condition)
+    public function getOrderExceedsDate(string $start_date,string $end_date, string $geolocation,int $order_limit)
     {
-        return Order::select('delivery_date')->where($condition)->groupBy($field)->havingRaw($have_condition)->pluck('delivery_date')->toArray();
+        return Order::select('delivery_date')->whereDate('delivery_date','>=',$start_date)->whereDate('delivery_date','<=',$end_date)->groupBy('delivery_date')->havingRaw("count(delivery_date) >= $order_limit")->pluck('delivery_date')->toArray();
     }
 }

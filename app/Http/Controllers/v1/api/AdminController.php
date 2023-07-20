@@ -66,7 +66,6 @@ class AdminController extends Controller
             return $this->successReponse("Successfully Deleted !!");
         }
         catch(Throwable $th){
-            dd($th);
             DB::rollBack();
             return $this->errorResponse($th->getMessage(),$th->getCode());
         }

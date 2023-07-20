@@ -43,7 +43,7 @@ Route::namespace('v1/api')->prefix('/admin')->group(function(){
         Route::get('/order/search',[DatatableController::class,'orderSearch'])->name('api.datatable.order-search');
 
     });
-
+    
     Route::prefix('/orders')->group(function(){
         Route::put('/{id}',[OrderController::class,'updateOrder']);
         

@@ -28,6 +28,7 @@ RUN apt-get install -y libpq-dev \
 
 RUN sed -i 's/SECLEVEL=2/SECLEVEL=1/g' /etc/ssl/openssl.cnf
 RUN sed -i 's/TLSv1.2/TLSv1.0/g' /etc/ssl/openssl.cnf
+RUN docker-php-ext-install opcache
 
 # Set working directory
 WORKDIR /var/www/html

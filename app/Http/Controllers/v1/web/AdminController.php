@@ -57,11 +57,12 @@ class AdminController extends Controller
         $location = $this->locationRepoInterface->getSingle(['geolocation'=>$order_detail->geolocation]);
         $available_dates = $this->getAvailableDays($location);
         if(count($available_dates) > 0 ){
-            $disabled_dates = $this->orderRepoInterface->getOrderExceedsDate([
-                ["delivery_date",">=",$available_dates["start_date"]],
-                ["delivery_date","<=",$available_dates["end_date"]],
-                ["geolocation","=",$location->geolocation]
-             ],"delivery_date","count(delivery_date) >= $location->order_limit");
+            $disabled_dates = $this->orderRepoInterface->getOrderExceedsDate(
+                $available_dates["start_date"],
+                $available_dates["end_date"],
+                $location->geolocation,
+                $location->order_limit
+            );
             $available_dates = array_values(array_diff($available_dates['enabled_dates'],$disabled_dates));
         }
         return view('pages.admin.order-detail',['order_detail'=> $order_detail,'available_dates'=> $available_dates]);

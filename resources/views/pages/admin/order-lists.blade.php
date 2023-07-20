@@ -9,19 +9,33 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/data-table.css') }}" />
         <style>
-            .date-search{
+            .date-search {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .active{
+
+            .active {
                 background-color: #0d6efd !important;
                 border-color: #0d6efd !important;
             }
-            .form-input{
-    width: 25% !important;
-    display: flex;
-    justify-content: space-between;
+
+            .form-input {
+                width: 25% !important;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .head-title {
+                color: #0c7f40;
+                font-weight: 700;
+                /* text-align: center; */
+                /* font-size: 24px; */
+                /* font-family: 'Poppins'; */
+                /* font-style: normal; */
+                /* font-weight: 700; */
+                /* text-transform: capitalize; */
+                margin-top: 17px;
             }
         </style>
     @endsection
@@ -29,7 +43,7 @@
 
     @section('main-content')
         <div class="container">
-            <h1>Orders</h1>
+            <h1 class='head-title'>Orders</h1>
             <div class="date-search">
                 <div class="form-input mt-2">
                     <label for="start-date">Start Date:</label>
@@ -37,16 +51,16 @@
                 </div>
                 <div class="form-input mt-2">
                     <label for="end-date">End Date:</label>
-                    <input type="date" id="end_date" placeholder="End Date" >
+                    <input type="date" id="end_date" placeholder="End Date">
                 </div>
                 <div class="form-input mt-2">
                     <button id="apply-filter" class="btn btn-danger w-50">Apply Filter</button>
                 </div>
-            </div>  
+            </div>
 
             <div class="card mt-3">
                 <div class="card-body">
-                    <table id="orders-table" class="table">  
+                    <table id="orders-table" class="table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -59,15 +73,17 @@
                                 <th><input type="text" id="search-name" data-column="0" placeholder="Search Name"></th>
                                 <th><input type="text" id="search-primary_contact_number" data-column="1"
                                         placeholder="Search Contact"></th>
-                                <th><input type="text" id="search-geolocation" data-column="2" placeholder="Search Geolocation"></th>
-                                <th><input type="text" id="search-delivery_date" data-column="3" placeholder="Search Delivery"></th>
+                                <th><input type="text" id="search-geolocation" data-column="2"
+                                        placeholder="Search Geolocation"></th>
+                                <th><input type="text" id="search-delivery_date" data-column="3"
+                                        placeholder="Search Delivery"></th>
                                 <th></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
             </div>
-            
+
         </div>
     @endsection
 
@@ -118,7 +134,6 @@
                         }
                     ],
                     dom: 'lrtip', // Show only the table, processing indicator, search input, and pagination
-                    lengthMenu: [10, 25, 50],
                     pageLength: 10,
                     searching: true,
                 });
@@ -134,7 +149,7 @@
                 $('#search-delivery_date').on('keyup', function() {
                     dataTable.column(3).search(this.value).draw();
                 });
-                
+
                 $('#apply-filter').on('click', function() {
                     dataTable.draw();
                 });

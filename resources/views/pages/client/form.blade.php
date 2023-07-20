@@ -150,41 +150,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="{{ asset('js/helpers.js') }}"></script>
+ 
     <script>
-        $('#name , #primary_contact_number , #primary_email_address , #address , #delivery_date , #postal_code , #notification_medium , #geolocation').keyup(function(e){
-            if(e.target.name === 'name'){
-                if(e?.target?.value?.length <= 2){
-                    $("#error-name").text('Name should not be more than 2 characters');
-                }
-                else{
-                    $("#error-name").text('');
-                }
-            }
-            else if(e.target.name === 'primary_contact_number' || e.target.name === 'secondary_contact_number'){
-                if(!e.target.value || !isValidPhoneNumber(e?.target?.value)){
-                    $(`#error-${e.target.name}`).text('Invalid contact Number');
-                }
-                else{
-                    $(`#error-${e.target.name}`).text('Invalid contact Number');
-                }
-            }
-            else if(e.target.name === 'primary_email_address' || e.target.name === 'secondary_email_address'){
-                if(!e.target.value || !isValidEmailAddress(e?.target?.value)){
-                    $(`#error-${e.target.name}`).text('Please enter a valid email address in the format example@example.com.');
-                }
-                else{
-                    $(`#error-${e.target.name}`).text('');
-                }
-            }
-            else if(e.target.name === 'address'){
-                if(e?.target?.value?.length <= 2){
-                    $("#error-name").text('Address should not be more than 2 characters');
-                }
-                else{
-                    $("#error-name").text('');
-                }
-            }
-        })
+
+           // $('#name , #primary_contact_number , #primary_email_address , #address , #delivery_date , #postal_code , #notification_medium , #geolocation').keyup(function(e){
+    //     if(e.target.name === 'name'){
+    //         if(e?.target?.value?.length <= 2){
+    //             $("#error-name").text('Name should not be more than 2 characters');
+    //         }
+    //         else{
+    //             $("#error-name").text('');
+    //         }
+    //     }
+    //     else if(e.target.name === 'primary_contact_number' || e.target.name === 'secondary_contact_number'){
+    //         if(!e.target.value || !isValidPhoneNumber(e?.target?.value)){
+    //             $(`#error-${e.target.name}`).text('Invalid contact Number');
+    //         }
+    //         else{
+    //             $(`#error-${e.target.name}`).text('Invalid contact Number');
+    //         }
+    //     }
+    //     else if(e.target.name === 'primary_email_address' || e.target.name === 'secondary_email_address'){
+    //         if(!e.target.value || !isValidEmailAddress(e?.target?.value)){
+    //             $(`#error-${e.target.name}`).text('Please enter a valid email address in the format example@example.com.');
+    //         }
+    //         else{
+    //             $(`#error-${e.target.name}`).text('');
+    //         }
+    //     }
+    //     else if(e.target.name === 'address'){
+    //         if(e?.target?.value?.length <= 2){
+    //             $("#error-name").text('Address should not be more than 2 characters');
+    //         }
+    //         else{
+    //             $("#error-name").text('');
+    //         }
+    //     }
+    // })
         var postal_codes = {!! json_encode($postal_codes) !!};
 
         function enableSelectedDatesAndDisableWeekends(enabledDates, date) {
@@ -209,6 +211,7 @@
         }
 
         $(document).ready(function() {
+            
             $('select').click(function() {
                 $(this).toggleClass('open');
             });
@@ -216,6 +219,7 @@
             $('#range').select2();
             $('#postal_code').select2();
             $('#postal_code').on('select2:select', function(e) {
+                $('.overlay').css('visibility','visible');
                 var selectedOption = e?.params?.data?.id;
                 let typedVal = $("#postal_code").val();
                 if (typedVal) {
@@ -232,6 +236,8 @@
                                 if (response?.response?.length === 0) {
                                     alert(
                                         'Sorry delivery is not available in this address at this moment !!');
+                                    $('.overlay').css('visibility','hidden');
+                                    
                                     return;
                                 } else {
                                     $('#datetimepicker').datepicker("destroy").datepicker({
@@ -245,8 +251,12 @@
                                     $("#geolocationDiv").show();
                                 }
                             }
+                        $('.overlay').css('visibility','hidden');
+
                         },
                         error: function(error) {
+                        $('.overlay').css('visibility','hidden');
+
                             console.log(error);
                         }
                     })
@@ -277,12 +287,16 @@
                 let validationMsg = validateReqiredFields(payload, requiredFields);
                 if (validationMsg) {
                     alert(validationMsg);
+                    $('.overlay').css('visibility','hidden');
+
                     return;
                 }
                 let isValidPrimaryContactNumber = isValidPhoneNumber(payload
                     ?.primary_contact_number);
                 if (!isValidPhoneNumber) {
                     alert("Primary Contact Number is invalid !!");
+                    $('.overlay').css('visibility','hidden');
+
                     return
                 }
                 if (payload?.secondary_contact_number) {
@@ -290,10 +304,12 @@
                         ?.secondary_contact_number);
                     if (!isValidSecondaryContactNumber) {
                         alert("Secondary Contact Number is invalid !!");
+                        $('.overlay').css('visibility','hidden');
                         return;
                     }
                     if (payload?.primary_contact_number === payload?.secondary_contact_number) {
                         alert("Main and School contact number cannot be same !!! ");
+                        $('.overlay').css('visibility','hidden');
                         return;
                     }
                 }
@@ -302,6 +318,7 @@
                     ?.primary_email_address);
                 if (!isValidPrimaryEmailAddress) {
                     alert('Primary Email Address is invalid');
+                    $('.overlay').css('visibility','hidden');
                     return;
                 }
                 if (payload?.secondary_email_address) {
@@ -309,10 +326,12 @@
                         ?.secondary_email_address);
                     if (!isValidSecondaryEmailAddress) {
                         alert("Secondary Email Address is invalid !!");
+                        $('.overlay').css('visibility','hidden');
                         return;
                     }
                     if (payload?.primary_email_address === payload?.secondary_email_address) {
                         alert("School and Alternative Email Address Cannot be same !!");
+                        $('.overlay').css('visibility','hidden');
                         return
                     }
                 }
@@ -347,7 +366,7 @@
             }
 
             function isValidPhoneNumber(phoneNumber) {
-                const regex = /^(\+61|0)[2-9]\d{8}$/ ;
+                const regex = /^(?:\+?61|0)4\d{8}$/ ;
                 return regex.test(phoneNumber);
             }
 

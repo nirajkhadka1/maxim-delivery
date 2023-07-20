@@ -8,5 +8,5 @@ interface OrdersRepoInterface{
     public function getSingle(array $condition);
     public function update(array $payload,array $condition);
     public function getCount(array $condition);
-    public function getOrderExceedsDate(array $condition, string $field,string $have_condition);
+    public function getOrderExceedsDate(string $start_date,string $end_date, string $geolocation,int $order_limit);
 }

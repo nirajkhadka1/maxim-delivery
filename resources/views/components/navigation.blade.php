@@ -55,7 +55,7 @@
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ url('v1/admin/location') }}">
                 <img src="{{asset('images/logo.png')}}" height="25"
                     alt="Maximum Delivery Logo" loading="lazy" />
             </a>

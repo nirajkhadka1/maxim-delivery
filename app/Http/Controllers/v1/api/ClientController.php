@@ -14,29 +14,30 @@ class ClientController extends Controller
 {
     use ServiceResponser;
     protected $request;
-    protected $orderRepoInterface,$schoolRepoInterface;
-    function __construct(Request $request,OrdersRepoInterface $orderRepoInterface,SchoolRepoInterface $schoolRepoInterface)
+    protected $orderRepoInterface, $schoolRepoInterface;
+    function __construct(Request $request, OrdersRepoInterface $orderRepoInterface, SchoolRepoInterface $schoolRepoInterface)
     {
-       $this->request = $request; 
-       $this->orderRepoInterface = $orderRepoInterface;
-       $this->schoolRepoInterface = $schoolRepoInterface;
-
+        $this->request = $request;
+        $this->orderRepoInterface = $orderRepoInterface;
+        $this->schoolRepoInterface = $schoolRepoInterface;
     }
-    public function submit(){
+    public function submit()
+    {
         $this->validate($this->request, [
             'name' => 'required|max:50',
             'address' => 'required|max:50',
-            'primary_email_address' => 'required|regex:/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/',
-            'secondary_email_address' => 'nullable|regex:/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/',
-            'primary_contact_number' => 'required|regex:/^(\+?61|0)4[0-9]{8}$/',
-            'secondary_contact_number' => 'nullable|regex:/^(\+?61|0)4[0-9]{8}$/',
+            'primary_email_address' => 'required|email',
+            'secondary_email_address' => 'nullable|email',
+            'primary_contact_number' => 'required|australian_mobile_number',
+            'secondary_contact_number' => 'nullable|australian_mobile_number',
             'delivery_date' => 'required|date_format:Y-m-d',
             'notification_medium' => 'required|in:sms,email,both',
             'postal_code' => 'required',
             'geolocation' => 'required',
         ]);
         
-        try{
+
+        try {
             DB::beginTransaction();
             $school_payload = [
                 'name' => $this->request->name,
@@ -60,12 +61,9 @@ class ClientController extends Controller
             DB::commit();
 
             return $this->successReponse("Order Placed Successfully");
-        }
-        catch(Throwable $th){
-            dd($th);
+        } catch (Throwable $th) {
             DB::rollBack();
             throw $th;
         }
-        
     }
 }

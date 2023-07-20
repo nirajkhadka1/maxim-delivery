@@ -46,58 +46,75 @@ body {
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
 }
-.form-group label{
+
+.form-group label {
     font-weight: 500;
     font-size: 16px;
 }
+
 .loader {
     margin-top: 30px;
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
     border-radius: 50%;
     width: 90px;
     height: 90px;
     animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
 
-.custom-color a{
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.custom-color a {
     background-color: #ff8585 !important;
 }
-.disable-color span{
+
+.disable-color span {
     background-color: #ff8585 !important;
 
 }
+
 .available a {
     background-color: #d2ffd2 !important;
 }
+
 .weekend span {
-        background-color: lightyellow !important;
+    background-color: lightyellow !important;
 }
-.nav-active{
+
+.nav-active {
     background-color: #0c7f40 !important;
     border: #187d45 !important;
     color: #fff;
 }
-.nav-active:hover{
+
+.nav-active:hover {
     color: #fff !important;
 }
-.heading{
+
+.heading {
     margin-top: 30px;
     display: flex;
     justify-content: center;
 }
-.heading h3{
+
+.heading h3 {
     color: #0c7f40;
-  font-weight: 700;
+    font-weight: 700;
 }
-.edit-active a{
+
+.edit-active a {
     background-color: #4cff9d !important;
-    border: 1px solid  #4cff9d !important;
+    border: 1px solid #4cff9d !important;
 }
 
 
