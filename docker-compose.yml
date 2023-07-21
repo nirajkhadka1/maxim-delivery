@@ -58,6 +58,19 @@ services:
     links:
       - mariadb
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: supervisor.Dockerfile
+    container_name: notification_schedular
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    networks:
+      - maxim-delivery-network
+
 volumes:
   mariadb:
 

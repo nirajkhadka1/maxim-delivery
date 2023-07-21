@@ -33,6 +33,8 @@ class NotificationJob implements ShouldQueue
         $token = getenv('TWILIO_AUTH_TOKEN');
         $twilioPhoneNumber = getenv('TWILIO_NUMBER');
         $client = new Client($sid, $token);
+                        
+
 
         foreach ($this->recipients as $recipient) {
             try {

@@ -6,6 +6,7 @@ use App\Http\Controllers\v1\api\ClientController;
 use App\Http\Controllers\v1\api\DatatableController;
 use App\Http\Controllers\v1\api\LocationController;
 use App\Http\Controllers\v1\api\OrderController;
+use App\Http\Controllers\v1\api\SmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,14 +44,16 @@ Route::namespace('v1/api')->prefix('/admin')->group(function(){
         Route::get('/order/search',[DatatableController::class,'orderSearch'])->name('api.datatable.order-search');
 
     });
-    
+
     Route::prefix('/orders')->group(function(){
         Route::put('/{id}',[OrderController::class,'updateOrder']);
         
     });
 
 });
-Route::post('/send-sms',[SendSmsController::class,'sendMessage']);
+Route::post('/send-sms',[SmsController::class,'sendSms']);
+Route::post('/send-email',[SmsController::class,'sendEmail']);
+
 
 Route::prefix('client_form')->group(function (){
     Route::post('/submit',[ClientController::class,'submit']);

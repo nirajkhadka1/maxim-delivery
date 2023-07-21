@@ -9,9 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Email extends Mailable
+class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
 
     public function build()
     {   

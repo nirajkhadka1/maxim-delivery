@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Jobs\NotificationJob;
+use App\Mail\Email;
 use App\Models\Order;
 use App\Repositories\contracts\OrdersRepoInterface;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class NotificationCommand extends Command
@@ -47,14 +49,14 @@ class NotificationCommand extends Command
                 if($currentDate->addDay(4)->isSameDay($deliveryDate)){
                     $recipients = $order->school->secondary_contact_number ? [$order->school->primary_contact_number,$order->school->secondary_contact_number] : [$order->school->primary_contact_number];
                     dispatch(new NotificationJob($recipients,'Test'));
+                    Mail::to($order->school->primary_email_address)->queue(new Email());
                 } 
                }
             });
             Log::info("Notification send successfully");
-
         }
         catch(Exception $ex){
-            dd($ex);
+            Log::info('Error :'. $ex->getMessage());
         }
     }
 }
