@@ -52,7 +52,7 @@ return [
             'port' => 587,
             'encryption' => 'tls',
             'username' => 'apikey',
-            'password' => env('SENDGRID_API_KEY'),
+            'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
         ],
         
